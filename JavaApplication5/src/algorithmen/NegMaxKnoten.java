@@ -9,76 +9,70 @@ package algorithmen;
  *
  * @author bfh
  */
-
 import java.util.ArrayList;
 import java.util.List;
 
 import spiel.SpielStatus;
 import spiel.NimStatus;
 
-
 public class NegMaxKnoten extends Knoten<Integer> {
-	
-	public NegMaxKnoten(SpielStatus state) {
-		super(state);
-	}
 
-	@Override
-	public Knoten<Integer> nextNode() {
+    public NegMaxKnoten(SpielStatus state) {
+        super(state);
+    }
 
-		if (!this.getState().isTerminal()) {
+    @Override
+    public Knoten<Integer> nextNode() {
 
-				int val = Integer.MIN_VALUE;
-				NegMaxKnoten negMaxNode = null;
+        if (!this.getState().isTerminal()) {
 
-				for (NegMaxKnoten node : this.getChildren())
-				{
-					int newVal = node.getValue();
-					
-					if (negMaxNode == null || val<newVal) {
-						negMaxNode = node;
-						val = newVal;
-					}
-				}
-				
-				return negMaxNode;
-		}
-		return null;
-	}
+            int val = Integer.MIN_VALUE;
+            NegMaxKnoten negMaxNode = null;
 
-	@Override
-	public Integer getValue() {
-		int val;
-		if (this.getState().isTerminal())
-		{
-			val = this.getState().getValue();
-			if (this.getState().isMaxPlayer())
-				val=-val;
-		} else {
-			val = -this.nextNode().getValue();
-		}	
-		
-		return val;
-	}
+            for (NegMaxKnoten node : this.getChildren()) {
+                int newVal = node.getValue();
 
-	public List<NegMaxKnoten> getChildren() {
-		List<NegMaxKnoten> list = new ArrayList<NegMaxKnoten>();
-		
-		List<SpielStatus> cache = this.getState().nextStates();
-		for (SpielStatus game : cache)
-		{
-			NegMaxKnoten n = new NegMaxKnoten(game.clone());
-			list.add(n);
-		}
-		
-		return list;
-	}
+                if (negMaxNode == null || val < newVal) {
+                    negMaxNode = node;
+                    val = newVal;
+                }
+            }
 
-	@Override
-	public boolean solve() {
-		return -this.getValue()>0;
-	}
-	
-	
+            return negMaxNode;
+        }
+        return null;
+    }
+
+    @Override
+    public Integer getValue() {
+        int val;
+        if (this.getState().isTerminal()) {
+            val = this.getState().getValue();
+            if (this.getState().isMaxPlayer()) {
+                val = -val;
+            }
+        } else {
+            val = -this.nextNode().getValue();
+        }
+
+        return val;
+    }
+
+    public List<NegMaxKnoten> getChildren() {
+        List<NegMaxKnoten> list = new ArrayList<NegMaxKnoten>();
+
+        List<SpielStatus> cache = this.getState().nextStates();
+        for (SpielStatus game : cache) {
+            NegMaxKnoten n = new NegMaxKnoten(game.clone());
+            list.add(n);
+        }
+
+        return list;
+    }
+
+    @Override
+    public boolean solve() {
+        return -this.getValue() > 0;
+    }
 
 }

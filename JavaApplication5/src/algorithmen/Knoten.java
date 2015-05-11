@@ -14,7 +14,6 @@ import java.util.List;
  *
  * @author bfh
  */
-
 public abstract class Knoten<T> {
 
     public Knoten(SpielStatus state) {
