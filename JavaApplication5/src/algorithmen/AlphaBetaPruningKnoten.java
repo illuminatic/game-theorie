@@ -28,8 +28,7 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
         beta = Integer.MAX_VALUE;
     }
 
-    @Override
-    public Knoten<Integer> nextKnoten() {
+    public Knoten<Integer> nextNode() {
 
         if (!this.getState().isTerminal()) {
 
@@ -73,7 +72,7 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
                 val = -val;
             }
         } else {
-            val = -this.nextKnoten().getValue();
+            val = -this.nextNode().getValue();
         }
 
         return val;

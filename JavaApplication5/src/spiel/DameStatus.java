@@ -14,7 +14,7 @@ import java.util.List;
 
 import algorithmen.Knoten;
 
-import spiel.Spielstatus;
+import spiel.SpielStatus;
 
 class DameColor {
 
@@ -22,19 +22,19 @@ class DameColor {
     public static final int W = 1;
 }
 
-public class DameStatus implements Spielstatus {
+public class DameStatus implements SpielStatus {
 
     private int depth = 0;
     private boolean maxPlayer = true;
     private int[][] field = new int[5][5];
     private int maxStones;
     private int minStones;
-    private List<Spielstatus> states;
+    private List<SpielStatus> states;
     private boolean initialized = false;
 
     public DameStatus() {
 
-        states = new ArrayList<Spielstatus>();
+        states = new ArrayList<SpielStatus>();
 
         // init positions
         for (int i = 0; i < field.length; i++) {
@@ -219,7 +219,7 @@ public class DameStatus implements Spielstatus {
                     return heuristicValue();
                 } else {
                     int val = (isMaxPlayer() ? Integer.MIN_VALUE : Integer.MAX_VALUE);
-                    for (Spielstatus s : states) {
+                    for (SpielStatus s : states) {
                         if (isMaxPlayer() && (s.getValue() > val)) {
                             val = s.getValue();
                         } else if (!isMaxPlayer() && (s.getValue() < val)) {

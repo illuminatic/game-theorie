@@ -72,7 +72,7 @@ public class NimStatus implements SpielStatus {
 
     @Override
     public SpielStatus clone() {
-        NimStatus state = new NimState();
+        NimStatus state = new NimStatus();
         state.numberOfSticks = this.numberOfSticks;
         state.maxPlayer = this.maxPlayer;
         return state;

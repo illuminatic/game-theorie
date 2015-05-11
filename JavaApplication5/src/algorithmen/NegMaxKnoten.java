@@ -13,13 +13,13 @@ package algorithmen;
 import java.util.ArrayList;
 import java.util.List;
 
-import spiel.GameState;
-import spiel.NimState;
+import spiel.SpielStatus;
+import spiel.NimStatus;
 
 
 public class NegMaxKnoten extends Knoten<Integer> {
 	
-	public NegMaxKnoten(GameState state) {
+	public NegMaxKnoten(SpielStatus state) {
 		super(state);
 	}
 
@@ -64,8 +64,8 @@ public class NegMaxKnoten extends Knoten<Integer> {
 	public List<NegMaxKnoten> getChildren() {
 		List<NegMaxKnoten> list = new ArrayList<NegMaxKnoten>();
 		
-		List<GameState> cache = this.getState().nextStates();
-		for (GameState game : cache)
+		List<SpielStatus> cache = this.getState().nextStates();
+		for (SpielStatus game : cache)
 		{
 			NegMaxKnoten n = new NegMaxKnoten(game.clone());
 			list.add(n);
