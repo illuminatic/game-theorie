@@ -5,14 +5,14 @@
  */
 package algorithmen;
 
-import spiel.SpielStatus;
+import status.SpielStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author bfh
+ * @author Bolaños & Düggelin
  */
 public abstract class Knoten<T> {
 

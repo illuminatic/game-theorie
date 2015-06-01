@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spiel;
+package status;
 
 /**
  *
- * @author bfh
+ * @author Bolaños & Düggelin
  */
 import java.util.ArrayList;
 import java.util.List;
 
 import algorithmen.Knoten;
 
-import spiel.SpielStatus;
+import status.SpielStatus;
 
 class DameColor {
 
@@ -25,7 +25,7 @@ class DameColor {
 public class DameStatus implements SpielStatus {
 
     private int depth = 0;
-    private boolean maxPlayer = true;
+    private boolean playerMax = true;
     private int[][] field = new int[5][5];
     private int maxStones;
     private int minStones;
@@ -53,7 +53,7 @@ public class DameStatus implements SpielStatus {
     }
 
     private void generateNextStates() {
-        int value = (maxPlayer ? DameColor.S : DameColor.W);
+        int value = (playerMax ? DameColor.S : DameColor.W);
 
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[i].length; j++) {
@@ -77,7 +77,7 @@ public class DameStatus implements SpielStatus {
                                 newField[i][j] = Integer.MIN_VALUE;
 
                                 DameStatus newState = (DameStatus) this.clone(newField);
-                                newState.maxPlayer = !maxPlayer;
+                                newState.playerMax = !playerMax;
 
                                 states.add(newState);
                             } // field has opponent stone
@@ -98,13 +98,13 @@ public class DameStatus implements SpielStatus {
                                     newField[m][n] = value;
                                     DameStatus newState = (DameStatus) this.clone(newField);
 
-                                    if (isMaxPlayer()) {
+                                    if (isMaxSpieler()) {
                                         newState.minStones--;
                                     } else {
                                         newState.maxStones--;
                                     }
 
-                                    newState.maxPlayer = !maxPlayer;
+                                    newState.playerMax = !playerMax;
 
                                     states.add(newState);
                                 }
@@ -157,7 +157,7 @@ public class DameStatus implements SpielStatus {
 
     @Override
     public int utilityValue() {
-        if (isMaxPlayer()) {
+        if (isMaxSpieler()) {
             return -1000;
         } else {
             return 1000;
@@ -171,8 +171,8 @@ public class DameStatus implements SpielStatus {
     }
 
     @Override
-    public boolean isMaxPlayer() {
-        return maxPlayer;
+    public boolean isMaxSpieler() {
+        return playerMax;
     }
 
     public int[][] cloneField(int[][] copyField) {
@@ -189,7 +189,7 @@ public class DameStatus implements SpielStatus {
     @Override
     public SpielStatus clone() {
         DameStatus state = new DameStatus();
-        state.maxPlayer = this.maxPlayer;
+        state.playerMax = this.playerMax;
         state.field = cloneField(this.field);
         state.maxStones = this.maxStones;
         state.minStones = this.minStones;
@@ -200,7 +200,7 @@ public class DameStatus implements SpielStatus {
 
     public SpielStatus clone(int[][] field) {
         DameStatus state = new DameStatus();
-        state.maxPlayer = this.maxPlayer;
+        state.playerMax = this.playerMax;
         state.field = cloneField(field);
         state.maxStones = this.maxStones;
         state.minStones = this.minStones;
@@ -215,14 +215,14 @@ public class DameStatus implements SpielStatus {
             if (maxStones == 0 || minStones == 0) {
                 return utilityValue();
             } else {
-                if (this.nextStates().size() == 0) {
+                if (this.nextStates().isEmpty()) {
                     return heuristicValue();
                 } else {
-                    int val = (isMaxPlayer() ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+                    int val = (isMaxSpieler() ? Integer.MIN_VALUE : Integer.MAX_VALUE);
                     for (SpielStatus s : states) {
-                        if (isMaxPlayer() && (s.getValue() > val)) {
+                        if (isMaxSpieler() && (s.getValue() > val)) {
                             val = s.getValue();
-                        } else if (!isMaxPlayer() && (s.getValue() < val)) {
+                        } else if (!isMaxSpieler() && (s.getValue() < val)) {
                             val = s.getValue();
                         }
                     }
@@ -266,9 +266,9 @@ public class DameStatus implements SpielStatus {
         }
         System.out.println("****************************");
         if (maxStones == 0 || minStones == 0) {
-            System.out.println((!isMaxPlayer() ? "MAX" : "MIN") + " hat gewonnen!");
+            System.out.println((!isMaxSpieler() ? "Schwarz" : "Weiss") + " hat gewonnen!");
         } else {
-            System.out.println("Nächster Zug von " + (isMaxPlayer() ? "MAX" : "MIN"));
+            System.out.println("Nächster Zug von " + (isMaxSpieler() ? "Schwarz" : "Weiss"));
         }
     }
 

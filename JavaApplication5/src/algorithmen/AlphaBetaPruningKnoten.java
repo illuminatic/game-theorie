@@ -7,14 +7,14 @@ package algorithmen;
 
 /**
  *
- * @author bfh
+ * @author Bolaños & Düggelin
  */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import spiel.SpielStatus;
-import spiel.NimStatus;
+import status.SpielStatus;
+import status.NimStatus;
 
 public class AlphaBetaPruningKnoten extends Knoten<Integer> {
 
@@ -29,35 +29,26 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
     }
 
     public Knoten<Integer> nextNode() {
-
         if (!this.getState().isTerminal()) {
-
             int val = Integer.MIN_VALUE;
             boolean allowCut = true;
             AlphaBetaPruningKnoten negMaxKnoten = null;
-
             for (AlphaBetaPruningKnoten node : this.getChildren()) {
                 int newVal = node.getValue();
-
                 if (negMaxKnoten == null || val < newVal) {
-
                     allowCut = (negMaxKnoten != null);
-
                     negMaxKnoten = node;
                     val = newVal;
-
-                    if (this.getState().isMaxPlayer()) {
+                    if (this.getState().isMaxSpieler()) {
                         alpha = val;
                     } else {
                         beta = val;
                     }
-
                     if (alpha >= beta && allowCut) {
                         return negMaxKnoten;
                     }
                 }
             }
-
             return negMaxKnoten;
         }
         return null;
@@ -68,7 +59,7 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
         int val;
         if (this.getState().isTerminal()) {
             val = this.getState().getValue();
-            if (this.getState().isMaxPlayer()) {
+            if (this.getState().isMaxSpieler()) {
                 val = -val;
             }
         } else {
@@ -79,7 +70,7 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
     }
 
     public List<AlphaBetaPruningKnoten> getChildren() {
-        List<AlphaBetaPruningKnoten> list = new ArrayList<AlphaBetaPruningKnoten>();
+        List<AlphaBetaPruningKnoten> list = new ArrayList<>();
 
         List<SpielStatus> cache = this.getState().nextStates();
         for (SpielStatus game : cache) {

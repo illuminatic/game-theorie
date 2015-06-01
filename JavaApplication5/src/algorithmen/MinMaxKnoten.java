@@ -7,13 +7,13 @@ package algorithmen;
 
 /**
  *
- * @author bfh
+ * @author Bolaños & Düggelin
  */
 import java.util.ArrayList;
 import java.util.List;
 
-import spiel.SpielStatus;
-import spiel.NimStatus;
+import status.SpielStatus;
+import status.NimStatus;
 
 public class MinMaxKnoten extends Knoten<Integer> {
 
@@ -26,7 +26,7 @@ public class MinMaxKnoten extends Knoten<Integer> {
 
         if (!this.getState().isTerminal()) {
 
-            if (this.getState().isMaxPlayer()) {
+            if (this.getState().isMaxSpieler()) {
 
                 int val = Integer.MIN_VALUE;
                 MinMaxKnoten maxNode = null;
@@ -70,7 +70,7 @@ public class MinMaxKnoten extends Knoten<Integer> {
     }
 
     public List<MinMaxKnoten> getChildren() {
-        List<MinMaxKnoten> list = new ArrayList<MinMaxKnoten>();
+        List<MinMaxKnoten> list = new ArrayList<>();
 
         List<SpielStatus> cache = this.getState().nextStates();
         for (SpielStatus game : cache) {

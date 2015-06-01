@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spiel;
+package status;
 
-/**
- *
- * @author bfh
- */
+
 import java.util.List;
 
 import algorithmen.Knoten;
@@ -27,12 +24,12 @@ public interface SpielStatus {
 
     int heuristicValue(); 	// heuristic
 
-    boolean isMaxPlayer();
+    boolean isMaxSpieler();
 
     int getDepth();
 
     void setDepth(int depth);
-
+    
     void print();
 
 }

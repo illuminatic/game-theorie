@@ -3,36 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spiel;
+package status;
 
-/**
- *
- * @author bfh
- */
+
 import java.util.ArrayList;
 import java.util.List;
-
-import algorithmen.Knoten;
-import spiel.SpielStatus;
 
 public class NimStatus implements SpielStatus {
 
     private int depth = 0;
     public int numberOfSticks;
-    private boolean maxPlayer = true;
+    private boolean maxSpieler = true;
+    private int sticksToremove;
 
-    public NimStatus() {
-        this.numberOfSticks = 21;
+    public NimStatus(int sticksNumberToPlay, int sticksNumberToRemove) {
+        this.numberOfSticks = sticksNumberToPlay ;
+        this.sticksToremove = sticksNumberToRemove;
     }
 
     @Override
     public List<SpielStatus> nextStates() {
-        List<SpielStatus> states = new ArrayList<SpielStatus>();
+        List<SpielStatus> states = new ArrayList<>();
 
         for (int i = 1; i <= Math.min(3, numberOfSticks); i++) {
             NimStatus newState = (NimStatus) this.clone();
             newState.numberOfSticks -= i;
-            newState.maxPlayer = !maxPlayer;
+            newState.maxSpieler = !maxSpieler;
             newState.depth = this.depth + 1;
             states.add(newState);
         }
@@ -47,7 +43,7 @@ public class NimStatus implements SpielStatus {
 
     @Override
     public int utilityValue() {
-        if (isMaxPlayer()) {
+        if (isMaxSpieler()) {
             return -100;
         } else {
             return 100;
@@ -58,7 +54,7 @@ public class NimStatus implements SpielStatus {
 
     @Override
     public int heuristicValue() {
-        if (numberOfSticks % 4 == 0 && isMaxPlayer()) {
+        if (numberOfSticks % sticksToremove == 0 && isMaxSpieler()) {
             return -1;
         } else {
             return 1;
@@ -66,15 +62,15 @@ public class NimStatus implements SpielStatus {
     }
 
     @Override
-    public boolean isMaxPlayer() {
-        return maxPlayer;
+    public boolean isMaxSpieler() {
+        return maxSpieler;
     }
 
     @Override
     public SpielStatus clone() {
-        NimStatus state = new NimStatus();
+        NimStatus state = new NimStatus(numberOfSticks,sticksToremove);
         state.numberOfSticks = this.numberOfSticks;
-        state.maxPlayer = this.maxPlayer;
+        state.maxSpieler = this.maxSpieler;
         return state;
     }
 
@@ -101,9 +97,9 @@ public class NimStatus implements SpielStatus {
     public void print() {
         System.out.println("Verbleibende Zundhölzchen: " + numberOfSticks);
         if (isTerminal()) {
-            System.out.println((!isMaxPlayer() ? "MAX" : "MIN") + " hat gewonnen!");
+            System.out.println((!isMaxSpieler() ? "Spieler 1" : "Spieler 2") + " hat gewonnen!");
         } else {
-            System.out.println("Nächster Zug von " + (isMaxPlayer() ? "MAX" : "MIN"));
+            System.out.println("Nächster Zug von " + (isMaxSpieler() ? "Spieler 1" : "Spieler 2"));
         }
 
     }

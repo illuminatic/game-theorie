@@ -7,13 +7,12 @@ package algorithmen;
 
 /**
  *
- * @author bfh
+ * @author Bolaños & Düggelin
  */
 import java.util.ArrayList;
 import java.util.List;
 
-import spiel.SpielStatus;
-import spiel.NimStatus;
+import status.SpielStatus;
 
 public class NegMaxKnoten extends Knoten<Integer> {
 
@@ -48,7 +47,7 @@ public class NegMaxKnoten extends Knoten<Integer> {
         int val;
         if (this.getState().isTerminal()) {
             val = this.getState().getValue();
-            if (this.getState().isMaxPlayer()) {
+            if (this.getState().isMaxSpieler()) {
                 val = -val;
             }
         } else {
@@ -59,7 +58,7 @@ public class NegMaxKnoten extends Knoten<Integer> {
     }
 
     public List<NegMaxKnoten> getChildren() {
-        List<NegMaxKnoten> list = new ArrayList<NegMaxKnoten>();
+        List<NegMaxKnoten> list = new ArrayList<>();
 
         List<SpielStatus> cache = this.getState().nextStates();
         for (SpielStatus game : cache) {
