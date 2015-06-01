@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package status;
 
-
 import java.util.List;
-
-import algorithmen.Knoten;
 
 public interface SpielStatus {
 
@@ -18,18 +10,17 @@ public interface SpielStatus {
 
     boolean isTerminal();
 
-    int getValue();			
+    int getValue();
 
-    int utilityValue(); 	
+    int utilityValue();
 
-    int heuristicValue(); 	
+    int heuristicValue();
 
     boolean isMaxSpieler();
 
     int getDepth();
 
     void setDepth(int depth);
-    
-    void print();
 
+    void print();
 }

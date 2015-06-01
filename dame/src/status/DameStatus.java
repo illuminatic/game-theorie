@@ -1,20 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package status;
 
-/**
- *
- * @author Bolaños & Düggelin
- */
 import java.util.ArrayList;
 import java.util.List;
-
-import algorithmen.Knoten;
-
-import status.SpielStatus;
 
 class DameColor {
 
@@ -142,16 +129,12 @@ public class DameStatus implements SpielStatus {
     @Override
     public boolean isTerminal() {
 
-        // if some player has no stones
         if (maxStones == 0 || minStones == 0) {
             return true;
         }
-
-        // if some player can't move anymore
-        if (this.nextStates().size() == 0) {
+        if (this.nextStates().isEmpty()) {
             return true;
         }
-
         return false;
     }
 
@@ -248,7 +231,10 @@ public class DameStatus implements SpielStatus {
     @Override
     public void print() {
         for (int i = 0; i < field.length; i++) {
-            System.out.println("---------------------");
+            for (int k = 0; k < 21; k++) {
+                System.out.print("\u2015");
+            }
+            System.out.print("\n");
             System.out.print("|");
             for (int j = 0; j < field[i].length; j++) {
 
@@ -264,11 +250,14 @@ public class DameStatus implements SpielStatus {
             }
             System.out.println("");
         }
-        System.out.println("****************************");
+        for (int k = 0; k < 21; k++) {
+            System.out.print("\u2015");
+        }
+        System.out.print("\n");
         if (maxStones == 0 || minStones == 0) {
             System.out.println((!isMaxSpieler() ? "Schwarz" : "Weiss") + " hat gewonnen!");
         } else {
-            System.out.println("Nächster Zug von " + (isMaxSpieler() ? "Schwarz" : "Weiss"));
+            System.out.println("Nächster Zug von " + (isMaxSpieler() ? "Schwarz:" : "Weiss:"));
         }
     }
 

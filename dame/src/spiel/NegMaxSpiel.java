@@ -1,18 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spiel;
 
-/**
- *
- * @author Bolaños & Düggelin
- */
-import status.SpielStatus;
-import status.DameStatus;
+import status.*;
 import java.io.IOException;
-
 import algorithmen.*;
 import java.util.Scanner;
 
