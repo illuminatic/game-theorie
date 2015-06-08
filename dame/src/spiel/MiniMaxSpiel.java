@@ -1,14 +1,13 @@
 package spiel;
 
-import status.*;
 import java.io.IOException;
 import algorithmen.*;
 import java.util.Scanner;
 
 public class MiniMaxSpiel {
 
-    private static SpielStatus game;
-    private static MinMaxKnoten node;
+    private static Status status;
+    private static MiniMaxKnoten knoten;
 
     /**
      * @param args
@@ -19,29 +18,27 @@ public class MiniMaxSpiel {
         System.out.println("MinMax-Verfahren:");
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Beginne Spiel...");
-        game = new DameStatus();
+        System.out.println("Spielbeginn...");
+        status = new Status();
 
-        node = new MinMaxKnoten(game);
+        knoten = new MiniMaxKnoten(status);
 
         long elapsed = 0;
-        while (node != null) {
+        while (knoten != null) {
             elapsed = System.currentTimeMillis();
-            node.getState().print();
-            node.getState().setDepth(0);
-            node = (MinMaxKnoten) node.nextNode();
+            knoten.getState().print();
+            knoten.getState().setDepth(0);
+            knoten = (MiniMaxKnoten) knoten.nextNode();
 
             if ((System.currentTimeMillis() - elapsed) < 1000) {
                 try {
                     Thread.sleep(System.currentTimeMillis() - elapsed);
                 } catch (InterruptedException e) {
-
-                    e.printStackTrace();
                 }
             }
         }
 
-        System.out.println("Fertig!");
+        System.out.println("Spielende!");
     }
 
 }

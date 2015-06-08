@@ -44,7 +44,7 @@ public class Spielen {
     }
 
     private static void callOptions() {
-        System.out.println("MinMax [1] ");
+        System.out.println("MiniMax [1] ");
         System.out.println("NegMax [2]");
         System.out.println("NegMax mit AlphaBetaPruning [3]");
     }

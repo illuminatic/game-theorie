@@ -1,52 +1,53 @@
-package status;
+package spiel;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-class DameColor {
+class Color {
 
     public static final int S = 0;
     public static final int W = 1;
 }
 
-public class DameStatus implements SpielStatus {
+public class Status {
 
-    private int depth = 0;
-    private boolean playerMax = true;
-    private int[][] field = new int[5][5];
-    private int maxStones;
-    private int minStones;
-    private List<SpielStatus> states;
+    private int tiefe = 0;
+    private boolean MaxSpieler = true;
+    private int[][] feld = new int[5][5];
+    private int maxSteine;
+    private int minSteine;
+    private List<Status> states;
     private boolean initialized = false;
 
-    public DameStatus() {
+    public Status() {
 
-        states = new ArrayList<SpielStatus>();
+        states = new ArrayList<>();
 
         // init positions
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
+        for (int i = 0; i < feld.length; i++) {
+            for (int j = 0; j < feld[i].length; j++) {
                 if (i * 5 + j < 12) {
-                    field[i][j] = DameColor.S;
-                    maxStones++;
+                    feld[i][j] = Color.S;
+                    maxSteine++;
                 } else if (i * 5 + j >= 13) {
-                    field[i][j] = DameColor.W;
-                    minStones++;
+                    feld[i][j] = Color.W;
+                    minSteine++;
                 } else {
-                    field[i][j] = Integer.MIN_VALUE;
+                    feld[i][j] = Integer.MIN_VALUE;
                 }
             }
         }
     }
 
     private void generateNextStates() {
-        int value = (playerMax ? DameColor.S : DameColor.W);
+        int value = (MaxSpieler ? Color.S : Color.W);
 
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
+        for (int i = 0; i < feld.length; i++) {
+            for (int j = 0; j < feld[i].length; j++) {
 
                 // it is one of the stones of the player
-                if (value == field[i][j]) {
+                if (value == feld[i][j]) {
 
                     // check surrounding fields
                     for (int k = i - 1; k <= i + 1; k++) {
@@ -57,19 +58,19 @@ public class DameStatus implements SpielStatus {
                                 continue;
                             }
 
-                            // field is empty
-                            if (field[k][l] == Integer.MIN_VALUE) {
-                                int[][] newField = cloneField(field);
+                            // feld is empty
+                            if (feld[k][l] == Integer.MIN_VALUE) {
+                                int[][] newField = cloneField(feld);
                                 newField[k][l] = value;
                                 newField[i][j] = Integer.MIN_VALUE;
 
-                                DameStatus newState = (DameStatus) this.clone(newField);
-                                newState.playerMax = !playerMax;
+                                Status newState = (Status) this.clone(newField);
+                                newState.MaxSpieler = !MaxSpieler;
 
                                 states.add(newState);
-                            } // field has opponent stone
-                            else if (field[k][l] != Integer.MIN_VALUE && field[k][l] != value) {
-                                // check if field behind opponent is free
+                            } // feld has opponent stone
+                            else if (feld[k][l] != Integer.MIN_VALUE && feld[k][l] != value) {
+                                // check if feld behind opponent is free
                                 int m = k + (k - i);
                                 int n = l + (l - j);
 
@@ -77,21 +78,21 @@ public class DameStatus implements SpielStatus {
                                     continue;
                                 }
 
-                                if (field[m][n] == Integer.MIN_VALUE) {
+                                if (feld[m][n] == Integer.MIN_VALUE) {
 
-                                    int[][] newField = cloneField(field);
+                                    int[][] newField = cloneField(feld);
                                     newField[k][l] = Integer.MIN_VALUE;
                                     newField[i][j] = Integer.MIN_VALUE;
                                     newField[m][n] = value;
-                                    DameStatus newState = (DameStatus) this.clone(newField);
+                                    Status newState = (Status) this.clone(newField);
 
                                     if (isMaxSpieler()) {
-                                        newState.minStones--;
+                                        newState.minSteine--;
                                     } else {
-                                        newState.maxStones--;
+                                        newState.maxSteine--;
                                     }
 
-                                    newState.playerMax = !playerMax;
+                                    newState.MaxSpieler = !MaxSpieler;
 
                                     states.add(newState);
                                 }
@@ -103,10 +104,9 @@ public class DameStatus implements SpielStatus {
         }
     }
 
-    @Override
-    public List<SpielStatus> nextStates() {
+    public List<Status> nextStates() {
         if (!initialized) {
-            if (depth <= 5) {
+            if (tiefe <= 5) {
                 generateNextStates();
             }
             initialized = true;
@@ -115,21 +115,20 @@ public class DameStatus implements SpielStatus {
     }
 
     private boolean validFields(int x, int y) {
-        if (x < 0 || x > field.length - 1) {
+        if (x < 0 || x > feld.length - 1) {
             return false;
         }
 
-        if (y < 0 || y > field[x].length - 1) {
+        if (y < 0 || y > feld[x].length - 1) {
             return false;
         }
 
         return true;
     }
 
-    @Override
     public boolean isTerminal() {
 
-        if (maxStones == 0 || minStones == 0) {
+        if (maxSteine == 0 || minSteine == 0) {
             return true;
         }
         if (this.nextStates().isEmpty()) {
@@ -138,7 +137,6 @@ public class DameStatus implements SpielStatus {
         return false;
     }
 
-    @Override
     public int utilityValue() {
         if (isMaxSpieler()) {
             return -1000;
@@ -148,61 +146,56 @@ public class DameStatus implements SpielStatus {
 
     }
 
-    @Override
     public int heuristicValue() {
-        return (maxStones - minStones);
+        
+        return (maxSteine - minSteine);
     }
 
-    @Override
     public boolean isMaxSpieler() {
-        return playerMax;
+        return MaxSpieler;
     }
 
     public int[][] cloneField(int[][] copyField) {
         int[][] newField = new int[5][5];
         for (int i = 0; i < copyField.length; i++) {
-            for (int j = 0; j < copyField[i].length; j++) {
-                newField[i][j] = copyField[i][j];
-            }
+            System.arraycopy(copyField[i], 0, newField[i], 0, copyField[i].length);
         }
 
         return newField;
     }
 
-    @Override
-    public SpielStatus clone() {
-        DameStatus state = new DameStatus();
-        state.playerMax = this.playerMax;
-        state.field = cloneField(this.field);
-        state.maxStones = this.maxStones;
-        state.minStones = this.minStones;
-        state.depth = this.depth + 1;
+    public Status clone() {
+        Status state = new Status();
+        state.MaxSpieler = this.MaxSpieler;
+        state.feld = cloneField(this.feld);
+        state.maxSteine = this.maxSteine;
+        state.minSteine = this.minSteine;
+        state.tiefe = this.tiefe + 1;
         state.initialized = false;
         return state;
     }
 
-    public SpielStatus clone(int[][] field) {
-        DameStatus state = new DameStatus();
-        state.playerMax = this.playerMax;
-        state.field = cloneField(field);
-        state.maxStones = this.maxStones;
-        state.minStones = this.minStones;
-        state.depth = this.depth + 1;
+    public Status clone(int[][] field) {
+        Status state = new Status();
+        state.MaxSpieler = this.MaxSpieler;
+        state.feld = cloneField(field);
+        state.maxSteine = this.maxSteine;
+        state.minSteine = this.minSteine;
+        state.tiefe = this.tiefe + 1;
         state.initialized = false;
         return state;
     }
 
-    @Override
     public int getValue() {
         if (isTerminal()) {
-            if (maxStones == 0 || minStones == 0) {
+            if (maxSteine == 0 || minSteine == 0) {
                 return utilityValue();
             } else {
                 if (this.nextStates().isEmpty()) {
                     return heuristicValue();
                 } else {
                     int val = (isMaxSpieler() ? Integer.MIN_VALUE : Integer.MAX_VALUE);
-                    for (SpielStatus s : states) {
+                    for (Status s : states) {
                         if (isMaxSpieler() && (s.getValue() > val)) {
                             val = s.getValue();
                         } else if (!isMaxSpieler() && (s.getValue() < val)) {
@@ -217,32 +210,29 @@ public class DameStatus implements SpielStatus {
         }
     }
 
-    @Override
     public int getDepth() {
-        return this.depth;
+        return this.tiefe;
     }
 
-    @Override
     public void setDepth(int depth) {
-        this.depth = depth;
+        this.tiefe = depth;
         generateNextStates();
     }
 
-    @Override
     public void print() {
-        for (int i = 0; i < field.length; i++) {
+        for (int i = 0; i < feld.length; i++) {
             for (int k = 0; k < 21; k++) {
                 System.out.print("\u2015");
             }
             System.out.print("\n");
             System.out.print("|");
-            for (int j = 0; j < field[i].length; j++) {
+            for (int j = 0; j < feld[i].length; j++) {
 
                 String c = "   |";
 
-                if (field[i][j] == 0) {
+                if (feld[i][j] == 0) {
                     c = " S |";
-                } else if (field[i][j] == 1) {
+                } else if (feld[i][j] == 1) {
                     c = " W |";
                 }
 
@@ -254,7 +244,7 @@ public class DameStatus implements SpielStatus {
             System.out.print("\u2015");
         }
         System.out.print("\n");
-        if (maxStones == 0 || minStones == 0) {
+        if (maxSteine == 0 || minSteine == 0) {
             System.out.println((!isMaxSpieler() ? "Schwarz" : "Weiss") + " hat gewonnen!");
         } else {
             System.out.println("Nächster Zug von " + (isMaxSpieler() ? "Schwarz:" : "Weiss:"));

@@ -1,13 +1,12 @@
 package spiel;
 
-import status.*;
 import java.io.IOException;
 import algorithmen.*;
 import java.util.Scanner;
 
 public class NegMaxSpiel {
 
-    private static SpielStatus game;
+    private static Status status;
 
     /**
      * @param args
@@ -18,9 +17,9 @@ public class NegMaxSpiel {
         System.out.println("NegMax-Verfahren:");
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Beginne Spiel...");
-        game = new DameStatus();
-        NegMaxKnoten node = new NegMaxKnoten(game);
+        System.out.println("Spielbeginn...");
+        status = new Status();
+        NegMaxKnoten node = new NegMaxKnoten(status);
 
         long elapsed = 0;
         while (node != null) {
@@ -33,12 +32,11 @@ public class NegMaxSpiel {
                 try {
                     Thread.sleep(System.currentTimeMillis() - elapsed);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
         }
 
-        System.out.println("Fertig!");
+        System.out.println("Spielende!");
     }
 
 }

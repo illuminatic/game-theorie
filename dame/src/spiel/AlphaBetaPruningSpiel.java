@@ -1,7 +1,5 @@
 package spiel;
 
-import status.SpielStatus;
-import status.DameStatus;
 import java.io.IOException;
 
 import algorithmen.*;
@@ -9,7 +7,7 @@ import java.util.Scanner;
 
 public class AlphaBetaPruningSpiel {
 
-    public static SpielStatus game;
+    public static Status status;
 
     /**
      * @param args
@@ -20,10 +18,10 @@ public class AlphaBetaPruningSpiel {
         System.out.println("NegMax-Verfahren mit AlphaBetaPruning :");
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Beginne Spiel...");
-        game = new DameStatus();
+        System.out.println("Spielbeginn...");
+        status = new Status();
 
-        AlphaBetaPruningKnoten node = new AlphaBetaPruningKnoten(game);
+        AlphaBetaPruningKnoten node = new AlphaBetaPruningKnoten(status);
 
         long elapsed = 0;
         while (node != null) {
@@ -35,11 +33,10 @@ public class AlphaBetaPruningSpiel {
                 try {
                     Thread.sleep(System.currentTimeMillis() - elapsed);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
         }
 
-        System.out.println("Fertig!");
+        System.out.println("Spielende!");
     }
 }

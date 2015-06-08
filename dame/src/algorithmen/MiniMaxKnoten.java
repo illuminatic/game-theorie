@@ -3,11 +3,11 @@ package algorithmen;
 import java.util.ArrayList;
 import java.util.List;
 
-import status.SpielStatus;
+import spiel.Status;
 
-public class MinMaxKnoten extends Knoten<Integer> {
+public class MiniMaxKnoten extends Knoten<Integer> {
 
-    public MinMaxKnoten(SpielStatus state) {
+    public MiniMaxKnoten(Status state) {
         super(state);
     }
 
@@ -19,30 +19,30 @@ public class MinMaxKnoten extends Knoten<Integer> {
             if (this.getState().isMaxSpieler()) {
 
                 int val = Integer.MIN_VALUE;
-                MinMaxKnoten maxNode = null;
+                MiniMaxKnoten maxKnoten = null;
 
-                for (MinMaxKnoten node : this.getChildren()) {
-                    if (maxNode == null || val < node.getValue()) {
-                        maxNode = node;
+                for (MiniMaxKnoten node : this.getChildren()) {
+                    if (maxKnoten == null || val < node.getValue()) {
+                        maxKnoten = node;
                         val = node.getValue();
                     }
                 }
 
-                return maxNode;
+                return maxKnoten;
 
             } else {
 
                 int val = Integer.MAX_VALUE;
-                MinMaxKnoten minNode = null;
+                MiniMaxKnoten minKnoten = null;
 
-                for (MinMaxKnoten node : this.getChildren()) {
-                    if (minNode == null || val > node.getValue()) {
-                        minNode = node;
+                for (MiniMaxKnoten node : this.getChildren()) {
+                    if (minKnoten == null || val > node.getValue()) {
+                        minKnoten = node;
                         val = node.getValue();
                     }
                 }
 
-                return minNode;
+                return minKnoten;
 
             }
         }
@@ -59,12 +59,12 @@ public class MinMaxKnoten extends Knoten<Integer> {
         }
     }
 
-    public List<MinMaxKnoten> getChildren() {
-        List<MinMaxKnoten> list = new ArrayList<>();
+    public List<MiniMaxKnoten> getChildren() {
+        List<MiniMaxKnoten> list = new ArrayList<>();
 
-        List<SpielStatus> cache = this.getState().nextStates();
-        for (SpielStatus game : cache) {
-            MinMaxKnoten n = new MinMaxKnoten(game.clone());
+        List<Status> cache = this.getState().nextStates();
+        for (Status status : cache) {
+            MiniMaxKnoten n = new MiniMaxKnoten(status.clone());
             list.add(n);
         }
 

@@ -1,14 +1,14 @@
 package algorithmen;
 
-import status.SpielStatus;
+import spiel.Status;
 
 public abstract class Knoten<T> {
 
-    public Knoten(SpielStatus state) {
+    public Knoten(Status state) {
         this.setState(state);
     }
 
-    public Knoten(SpielStatus state, T val) {
+    public Knoten(Status state, T val) {
         this.setState(state);
         this.setData(val);
     }
@@ -21,11 +21,11 @@ public abstract class Knoten<T> {
         this.data = data;
     }
 
-    public SpielStatus getState() {
+    public Status getState() {
         return state;
     }
 
-    public void setState(SpielStatus state) {
+    public void setState(Status state) {
         this.state = state;
     }
 
@@ -35,6 +35,6 @@ public abstract class Knoten<T> {
 
     abstract boolean solve();
 
-    private SpielStatus state;
+    private Status state;
     private T data;
 }
