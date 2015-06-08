@@ -4,7 +4,7 @@ package spiel;
 import java.util.ArrayList;
 import java.util.List;
 
-class Color {
+class Farbe {
 
     public static final int S = 0;
     public static final int W = 1;
@@ -28,10 +28,10 @@ public class Status {
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
                 if (i * 5 + j < 12) {
-                    feld[i][j] = Color.S;
+                    feld[i][j] = Farbe.S;
                     maxSteine++;
                 } else if (i * 5 + j >= 13) {
-                    feld[i][j] = Color.W;
+                    feld[i][j] = Farbe.W;
                     minSteine++;
                 } else {
                     feld[i][j] = Integer.MIN_VALUE;
@@ -41,7 +41,7 @@ public class Status {
     }
 
     private void generateNextStates() {
-        int value = (MaxSpieler ? Color.S : Color.W);
+        int value = (MaxSpieler ? Farbe.S : Farbe.W);
 
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
