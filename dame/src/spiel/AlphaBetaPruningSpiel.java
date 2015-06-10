@@ -21,20 +21,14 @@ public class AlphaBetaPruningSpiel {
         System.out.println("Spielbeginn...");
         status = new Status();
 
-        AlphaBetaPruningKnoten node = new AlphaBetaPruningKnoten(status);
+        AlphaBetaPruningKnoten knoten = new AlphaBetaPruningKnoten(status);
 
         long elapsed = 0;
-        while (node != null) {
+        while (knoten != null) {
             elapsed = System.currentTimeMillis();
-            node.getState().print();
-            node.getState().setDepth(0);
-            node = (AlphaBetaPruningKnoten) node.nextNode();
-            if ((System.currentTimeMillis() - elapsed) < 1000) {
-                try {
-                    Thread.sleep(System.currentTimeMillis() - elapsed);
-                } catch (InterruptedException e) {
-                }
-            }
+            knoten.getState().print();
+            knoten.getState().setDepth(0);
+            knoten = (AlphaBetaPruningKnoten) knoten.nextNode();
         }
 
         System.out.println("Spielende!");

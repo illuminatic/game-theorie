@@ -4,12 +4,12 @@ import spiel.Status;
 
 public abstract class Knoten<T> {
 
-    public Knoten(Status state) {
-        this.setState(state);
+    public Knoten(Status status) {
+        this.setState(status);
     }
 
-    public Knoten(Status state, T val) {
-        this.setState(state);
+    public Knoten(Status status, T val) {
+        this.setState(status);
         this.setData(val);
     }
 
@@ -32,8 +32,6 @@ public abstract class Knoten<T> {
     abstract Knoten<T> nextNode();
 
     abstract T getValue();
-
-    abstract boolean solve();
 
     private Status state;
     private T data;

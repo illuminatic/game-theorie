@@ -26,7 +26,6 @@ public class NegMaxKnoten extends Knoten<Integer> {
                     val = newVal;
                 }
             }
-
             return negMaxKnoten;
         }
         return null;
@@ -43,7 +42,6 @@ public class NegMaxKnoten extends Knoten<Integer> {
         } else {
             val = -this.nextNode().getValue();
         }
-
         return val;
     }
 
@@ -55,13 +53,6 @@ public class NegMaxKnoten extends Knoten<Integer> {
             NegMaxKnoten n = new NegMaxKnoten(status.clone());
             list.add(n);
         }
-
         return list;
     }
-
-    @Override
-    public boolean solve() {
-        return -this.getValue() > 0;
-    }
-
 }

@@ -27,7 +27,6 @@ public class MiniMaxKnoten extends Knoten<Integer> {
                         val = node.getValue();
                     }
                 }
-
                 return maxKnoten;
 
             } else {
@@ -41,9 +40,7 @@ public class MiniMaxKnoten extends Knoten<Integer> {
                         val = node.getValue();
                     }
                 }
-
                 return minKnoten;
-
             }
         }
         return null;
@@ -55,7 +52,6 @@ public class MiniMaxKnoten extends Knoten<Integer> {
             return this.getState().getValue();
         } else {
             return this.nextNode().getValue();
-
         }
     }
 
@@ -67,13 +63,6 @@ public class MiniMaxKnoten extends Knoten<Integer> {
             MiniMaxKnoten n = new MiniMaxKnoten(status.clone());
             list.add(n);
         }
-
         return list;
     }
-
-    @Override
-    boolean solve() {
-        return this.getValue() > 0;
-    }
-
 }

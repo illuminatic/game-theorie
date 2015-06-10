@@ -29,13 +29,6 @@ public class MiniMaxSpiel {
             knoten.getState().print();
             knoten.getState().setDepth(0);
             knoten = (MiniMaxKnoten) knoten.nextNode();
-
-            if ((System.currentTimeMillis() - elapsed) < 1000) {
-                try {
-                    Thread.sleep(System.currentTimeMillis() - elapsed);
-                } catch (InterruptedException e) {
-                }
-            }
         }
 
         System.out.println("Spielende!");

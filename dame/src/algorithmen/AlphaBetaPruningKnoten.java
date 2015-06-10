@@ -66,13 +66,6 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
             n.beta = this.beta;
             list.add(n);
         }
-
         return list;
     }
-
-    @Override
-    public boolean solve() {
-        return -this.getValue() > 0;
-    }
-
 }

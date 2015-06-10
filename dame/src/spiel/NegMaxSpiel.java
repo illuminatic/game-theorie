@@ -19,21 +19,14 @@ public class NegMaxSpiel {
         Scanner sc = new Scanner(System.in);
         System.out.println("Spielbeginn...");
         status = new Status();
-        NegMaxKnoten node = new NegMaxKnoten(status);
+        NegMaxKnoten knoten = new NegMaxKnoten(status);
 
         long elapsed = 0;
-        while (node != null) {
+        while (knoten != null) {
             elapsed = System.currentTimeMillis();
-            node.getState().print();
-            node.getState().setDepth(0);
-            node = (NegMaxKnoten) node.nextNode();
-
-            if ((System.currentTimeMillis() - elapsed) < 1000) {
-                try {
-                    Thread.sleep(System.currentTimeMillis() - elapsed);
-                } catch (InterruptedException e) {
-                }
-            }
+            knoten.getState().print();
+            knoten.getState().setDepth(0);
+            knoten = (NegMaxKnoten) knoten.nextNode();
         }
 
         System.out.println("Spielende!");

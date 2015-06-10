@@ -4,12 +4,6 @@ package spiel;
 import java.util.ArrayList;
 import java.util.List;
 
-class Farbe {
-
-    public static final int S = 0;
-    public static final int W = 1;
-}
-
 public class Status {
 
     private int tiefe = 0;
@@ -19,6 +13,7 @@ public class Status {
     private int minSteine;
     private List<Status> states;
     private boolean initialized = false;
+    private static final int MAX_TIEFE = 5;
 
     public Status() {
 
@@ -28,10 +23,10 @@ public class Status {
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
                 if (i * 5 + j < 12) {
-                    feld[i][j] = Farbe.S;
+                    feld[i][j] = 0;
                     maxSteine++;
                 } else if (i * 5 + j >= 13) {
-                    feld[i][j] = Farbe.W;
+                    feld[i][j] = 1;
                     minSteine++;
                 } else {
                     feld[i][j] = Integer.MIN_VALUE;
@@ -41,7 +36,7 @@ public class Status {
     }
 
     private void generateNextStates() {
-        int value = (MaxSpieler ? Farbe.S : Farbe.W);
+        int value = (MaxSpieler ? 0 : 1);
 
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
@@ -106,7 +101,7 @@ public class Status {
 
     public List<Status> nextStates() {
         if (!initialized) {
-            if (tiefe <= 5) {
+            if (tiefe <= MAX_TIEFE) {
                 generateNextStates();
             }
             initialized = true;
@@ -143,11 +138,9 @@ public class Status {
         } else {
             return 1000;
         }
-
     }
 
     public int heuristicValue() {
-        
         return (maxSteine - minSteine);
     }
 
@@ -160,7 +153,6 @@ public class Status {
         for (int i = 0; i < copyField.length; i++) {
             System.arraycopy(copyField[i], 0, newField[i], 0, copyField[i].length);
         }
-
         return newField;
     }
 
@@ -235,7 +227,6 @@ public class Status {
                 } else if (feld[i][j] == 1) {
                     c = " W |";
                 }
-
                 System.out.print(c);
             }
             System.out.println("");
