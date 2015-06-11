@@ -19,7 +19,6 @@ public class Status {
 
         states = new ArrayList<>();
 
-        // init positions
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
                 if (i * 5 + j < 12) {
@@ -41,10 +40,8 @@ public class Status {
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
 
-                // it is one of the stones of the player
                 if (value == feld[i][j]) {
 
-                    // check surrounding fields
                     for (int k = i - 1; k <= i + 1; k++) {
 
                         for (int l = j - 1; l <= j + 1; l++) {
@@ -53,7 +50,6 @@ public class Status {
                                 continue;
                             }
 
-                            // feld is empty
                             if (feld[k][l] == Integer.MIN_VALUE) {
                                 int[][] newField = cloneField(feld);
                                 newField[k][l] = value;
@@ -63,9 +59,9 @@ public class Status {
                                 newState.MaxSpieler = !MaxSpieler;
 
                                 states.add(newState);
-                            } // feld has opponent stone
+                            } 
                             else if (feld[k][l] != Integer.MIN_VALUE && feld[k][l] != value) {
-                                // check if feld behind opponent is free
+                                
                                 int m = k + (k - i);
                                 int n = l + (l - j);
 

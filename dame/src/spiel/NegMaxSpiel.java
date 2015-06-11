@@ -8,10 +8,6 @@ public class NegMaxSpiel {
 
     private static Status status;
 
-    /**
-     * @param args
-     * @throws IOException
-     */
     public static void main(String[] args) throws IOException {
 
         System.out.println("NegMax-Verfahren:");
@@ -21,9 +17,7 @@ public class NegMaxSpiel {
         status = new Status();
         NegMaxKnoten knoten = new NegMaxKnoten(status);
 
-        long elapsed = 0;
         while (knoten != null) {
-            elapsed = System.currentTimeMillis();
             knoten.getState().print();
             knoten.getState().setDepth(0);
             knoten = (NegMaxKnoten) knoten.nextNode();

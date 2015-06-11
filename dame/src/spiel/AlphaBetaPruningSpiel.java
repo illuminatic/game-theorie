@@ -9,10 +9,6 @@ public class AlphaBetaPruningSpiel {
 
     public static Status status;
 
-    /**
-     * @param args
-     * @throws IOException
-     */
     public static void main(String[] args) throws IOException {
 
         System.out.println("NegMax-Verfahren mit AlphaBetaPruning :");
@@ -23,9 +19,7 @@ public class AlphaBetaPruningSpiel {
 
         AlphaBetaPruningKnoten knoten = new AlphaBetaPruningKnoten(status);
 
-        long elapsed = 0;
         while (knoten != null) {
-            elapsed = System.currentTimeMillis();
             knoten.getState().print();
             knoten.getState().setDepth(0);
             knoten = (AlphaBetaPruningKnoten) knoten.nextNode();
