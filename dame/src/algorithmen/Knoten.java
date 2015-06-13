@@ -1,27 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package algorithmen;
 
-import status.SpielStatus;
+import spiel.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- *
- * @author Bolaños & Düggelin
- */
 public abstract class Knoten<T> {
 
-    public Knoten(SpielStatus state) {
-        this.setState(state);
+    public Knoten(Status status) {
+        this.setState(status);
     }
 
-    public Knoten(SpielStatus state, T val) {
-        this.setState(state);
+    public Knoten(Status status, T val) {
+        this.setState(status);
         this.setData(val);
     }
 
@@ -33,11 +21,11 @@ public abstract class Knoten<T> {
         this.data = data;
     }
 
-    public SpielStatus getState() {
+    public Status getState() {
         return state;
     }
 
-    public void setState(SpielStatus state) {
+    public void setState(Status state) {
         this.state = state;
     }
 
@@ -45,8 +33,6 @@ public abstract class Knoten<T> {
 
     abstract T getValue();
 
-    abstract boolean solve();
-
-    private SpielStatus state;
+    private Status state;
     private T data;
 }

@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package algorithmen;
 
-/**
- *
- * @author Bolaños & Düggelin
- */
 import java.util.ArrayList;
 import java.util.List;
-
-import status.SpielStatus;
+import spiel.Status;
 
 public class AlphaBetaPruningKnoten extends Knoten<Integer> {
 
     private int alpha;
     private int beta;
 
-    public AlphaBetaPruningKnoten(SpielStatus state) {
+    public AlphaBetaPruningKnoten(Status state) {
         super(state);
 
         alpha = Integer.MIN_VALUE;
@@ -63,27 +53,19 @@ public class AlphaBetaPruningKnoten extends Knoten<Integer> {
         } else {
             val = -this.nextNode().getValue();
         }
-
         return val;
     }
 
     public List<AlphaBetaPruningKnoten> getChildren() {
         List<AlphaBetaPruningKnoten> list = new ArrayList<>();
 
-        List<SpielStatus> cache = this.getState().nextStates();
-        for (SpielStatus game : cache) {
-            AlphaBetaPruningKnoten n = new AlphaBetaPruningKnoten(game.clone());
+        List<Status> cache = this.getState().nextStates();
+        for (Status status : cache) {
+            AlphaBetaPruningKnoten n = new AlphaBetaPruningKnoten(status.clone());
             n.alpha = this.alpha;
             n.beta = this.beta;
             list.add(n);
         }
-
         return list;
     }
-
-    @Override
-    public boolean solve() {
-        return -this.getValue() > 0;
-    }
-
 }

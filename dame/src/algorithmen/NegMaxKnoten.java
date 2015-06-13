@@ -1,22 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package algorithmen;
 
-/**
- *
- * @author Bolaños & Düggelin
- */
 import java.util.ArrayList;
 import java.util.List;
-
-import status.SpielStatus;
+import spiel.Status;
 
 public class NegMaxKnoten extends Knoten<Integer> {
 
-    public NegMaxKnoten(SpielStatus state) {
+    public NegMaxKnoten(Status state) {
         super(state);
     }
 
@@ -26,18 +16,17 @@ public class NegMaxKnoten extends Knoten<Integer> {
         if (!this.getState().isTerminal()) {
 
             int val = Integer.MIN_VALUE;
-            NegMaxKnoten negMaxNode = null;
+            NegMaxKnoten negMaxKnoten = null;
 
             for (NegMaxKnoten node : this.getChildren()) {
                 int newVal = node.getValue();
 
-                if (negMaxNode == null || val < newVal) {
-                    negMaxNode = node;
+                if (negMaxKnoten == null || val < newVal) {
+                    negMaxKnoten = node;
                     val = newVal;
                 }
             }
-
-            return negMaxNode;
+            return negMaxKnoten;
         }
         return null;
     }
@@ -53,25 +42,17 @@ public class NegMaxKnoten extends Knoten<Integer> {
         } else {
             val = -this.nextNode().getValue();
         }
-
         return val;
     }
 
     public List<NegMaxKnoten> getChildren() {
         List<NegMaxKnoten> list = new ArrayList<>();
 
-        List<SpielStatus> cache = this.getState().nextStates();
-        for (SpielStatus game : cache) {
-            NegMaxKnoten n = new NegMaxKnoten(game.clone());
+        List<Status> cache = this.getState().nextStates();
+        for (Status status : cache) {
+            NegMaxKnoten n = new NegMaxKnoten(status.clone());
             list.add(n);
         }
-
         return list;
     }
-
-    @Override
-    public boolean solve() {
-        return -this.getValue() > 0;
-    }
-
 }

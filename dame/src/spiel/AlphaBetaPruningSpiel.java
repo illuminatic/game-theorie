@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package spiel;
 
-import status.SpielStatus;
-import status.DameStatus;
 import java.io.IOException;
 
 import algorithmen.*;
@@ -14,7 +7,7 @@ import java.util.Scanner;
 
 public class AlphaBetaPruningSpiel {
 
-    public static SpielStatus game;
+    public static Status status;
 
     /**
      * @param args
@@ -25,26 +18,19 @@ public class AlphaBetaPruningSpiel {
         System.out.println("NegMax-Verfahren mit AlphaBetaPruning :");
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Beginne Spiel...");
-        game = new DameStatus();
+        System.out.println("Spielbeginn...");
+        status = new Status();
 
-        AlphaBetaPruningKnoten node = new AlphaBetaPruningKnoten(game);
+        AlphaBetaPruningKnoten knoten = new AlphaBetaPruningKnoten(status);
 
         long elapsed = 0;
-        while (node != null) {
+        while (knoten != null) {
             elapsed = System.currentTimeMillis();
-            node.getState().print();
-            node.getState().setDepth(0);
-            node = (AlphaBetaPruningKnoten) node.nextNode();
-            if ((System.currentTimeMillis() - elapsed) < 1000) {
-                try {
-                    Thread.sleep(System.currentTimeMillis() - elapsed);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            knoten.getState().print();
+            knoten.getState().setDepth(0);
+            knoten = (AlphaBetaPruningKnoten) knoten.nextNode();
         }
 
-        System.out.println("Fertig!");
+        System.out.println("Spielende!");
     }
 }
