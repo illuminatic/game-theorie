@@ -13,7 +13,7 @@ public class Status {
     //private int feldWert;
     private List<Status> states;
     private boolean initialized = false;
-    private static final int MAX_TIEFE = 5;
+    private static final int MAX_TIEFE = 6;
 
     public Status() {
 
@@ -155,8 +155,6 @@ public class Status {
                     heuristicVal+=2;
                 else if (symbol == feld[x][y])
                     heuristicVal+=1;
-                else
-                    heuristicVal+=0;
             }
         }
         heuristicVal = heuristicVal / steine;
