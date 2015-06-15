@@ -9,8 +9,8 @@ public class Status {
     private int tiefe = 0;
     private boolean MaxSpieler = true;
     private int[][] feld = new int[5][5];
-    private int maxSteine;
-    private int minSteine;
+    private int maxSteine, minSteine;
+    //private int feldWert;
     private List<Status> states;
     private boolean initialized = false;
     private static final int MAX_TIEFE = 5;
@@ -137,7 +137,30 @@ public class Status {
     }
 
     public int heuristicValue() {
-        return (maxSteine - minSteine);
+        
+        
+        int heuristicVal = 0;
+        int symbol = 0;
+        int steine = minSteine;
+        if (isMaxSpieler()) {
+            symbol = 1;
+            steine = maxSteine;
+        }
+        
+        for (int x = 0; x <= 4; x++) {
+            for (int y = 0; y <= 4; y++) {
+                if (symbol == feld[x][y] && (x == 0 || x == 4 || y == 0 || y == 4))
+                    heuristicVal+=3;
+                else if (symbol == feld[x][y] && (x == 1 || x == 3 || y == 1 || y == 3))
+                    heuristicVal+=2;
+                else if (symbol == feld[x][y])
+                    heuristicVal+=1;
+                else
+                    heuristicVal+=0;
+            }
+        }
+        heuristicVal = heuristicVal / steine;
+        return heuristicVal + (maxSteine - minSteine)*2;
     }
 
     public boolean isMaxSpieler() {
