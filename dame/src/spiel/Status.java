@@ -109,7 +109,7 @@ public class Status {
         if (x < 0 || x > feld.length - 1) {
             return false;
         }
-
+        
         if (y < 0 || y > feld[x].length - 1) {
             return false;
         }
@@ -119,12 +119,10 @@ public class Status {
 
     public boolean isTerminal() {
 
-        if (maxSteine == 0 || minSteine == 0) {
+        if ((maxSteine == 0 || minSteine == 0)||(this.nextStates().isEmpty())) {
             return true;
         }
-        if (this.nextStates().isEmpty()) {
-            return true;
-        }
+   
         return false;
     }
 
@@ -159,8 +157,11 @@ public class Status {
                     heuristicVal+=0;
             }
         }
-        heuristicVal = heuristicVal / steine;
-        return heuristicVal + (maxSteine - minSteine)*2;
+        
+        heuristicVal = heuristicVal / steine;//man kann auch steinde in schelchte orten haben (relativen wert4 der euristik)
+        
+        return heuristicVal + (maxSteine - minSteine)*2; //*2 weil das wichtiger ist ansonten laufen sich 
+        //davon
     }
 
     public boolean isMaxSpieler() {
